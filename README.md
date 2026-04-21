@@ -10,7 +10,7 @@ This is a C program designed to stress test the system's swap usage by allocatin
 
 ## Configuration
 
-Before running, edit `swap-test.c` and change the `PHYSICAL_SWAP_DEVICE` define to match your system's swap device. You can find this by running `cat /proc/swaps`.
+Before running, edit `swap-test.c` and change the `PHYSICAL_SWAP_DEVICE` define to match your system's physical swap device. You can find this by running `cat /proc/swaps`.
 
 Example:
 ```c
@@ -35,7 +35,7 @@ Run the program with root privileges:
 sudo ./swap-test
 ```
 
-The program will continuously allocate memory and monitor swap usage until it reaches 30% on the target device.
+The program will continuously allocate memory and monitor physical swap usage until it reaches 30%, then exit automatically.
 
 **Warning:** This program allocates large amounts of memory and can cause system instability if not monitored. Use with caution and ensure you have adequate free RAM and swap space.
 

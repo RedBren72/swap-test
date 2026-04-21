@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 // Change this to the device name of your physical swap (e.g., "/dev/nvme0n1p3" or "/dev/sda3")
-#define PHYSICAL_SWAP_DEVICE "/dev/sda3" 
+#define PHYSICAL_SWAP_DEVICE "/dev/nvme0n1p3" 
 #define CHUNK_SIZE_MB 256
 #define SLEEP_INTERVAL_SEC 1
 
@@ -44,8 +44,8 @@ int main() {
         fflush(stdout);
 
         if (current_usage >= 0.30) {
-            printf("\nTarget reached (30%%)! Stopping allocation.\n");
-            break;
+            printf("\nTarget reached (30%%)! Exiting.\n");
+            return 0;
         }
 
         // Allocate memory and touch it to force it into RAM/zram
@@ -54,15 +54,13 @@ int main() {
             memset(new_chunk, 1, CHUNK_SIZE_MB * 1024 * 1024); // Mandatory to trigger swap
             total_allocated += CHUNK_SIZE_MB;
         } else {
-            printf("\nFailed to allocate more memory.\n");
-            break;
+            printf("\nFailed to allocate more memory. Continuing to monitor...\n");
         }
 
         sleep(SLEEP_INTERVAL_SEC);
     }
 
-    printf("Total allocated: %zu MB. Press Enter to exit and free memory...", total_allocated);
-    getchar();
+    // Should not reach here
     return 0;
 }
 
